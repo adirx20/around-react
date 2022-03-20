@@ -1,3 +1,4 @@
+// =====>
 function Header(props) {
     return (
         <>
@@ -9,5 +10,6 @@ function Header(props) {
         </>
     );
 }
+// <=====
 
-export { Header };
+export default Header;

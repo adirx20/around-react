@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { api } from '../utils/api';
+import api from '../utils/api';
 
+// =====>
 function Main(props) {
     // STATE VARIABLES
     const [userName, setUserName] = React.useState('');
@@ -9,9 +10,15 @@ function Main(props) {
     const [userAvatar, setUserAvatar] = React.useState('');
 
     React.useEffect(() => {
-        api.getUserInfo()
-        .then (res => res.json())
-        .then (data => console.log('data', data))
+        Promise.all([api.getUserInfo(), api.getInitialCards()])
+            .then(([userData, cardsData]) => {
+                setUserName(userData.name);
+                setUserDescription(userData.about);
+                setUserAvatar(userData.avatar);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     })
 
     return (
@@ -41,5 +48,6 @@ function Main(props) {
         </>
     );
 }
+// <=====
 
-export { Main };
+export default Main;

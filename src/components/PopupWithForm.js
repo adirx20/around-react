@@ -1,3 +1,4 @@
+// =====>
 function PopupWithForm(props) {
     return (
         <>
@@ -16,5 +17,6 @@ function PopupWithForm(props) {
         </>
     );
 }
+// <=====
 
-export { PopupWithForm };
+export default PopupWithForm;

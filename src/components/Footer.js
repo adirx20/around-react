@@ -1,3 +1,4 @@
+// =====>
 function Footer(props) {
     return (
         <>
@@ -9,5 +10,6 @@ function Footer(props) {
         </>
     );
 }
+// <=====
 
-export { Footer };
+export default Footer;
