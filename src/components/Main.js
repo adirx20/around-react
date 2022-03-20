@@ -5,9 +5,9 @@ import api from '../utils/api';
 // =====>
 function Main(props) {
     // STATE VARIABLES
-    const [userName, setUserName] = React.useState('');
-    const [userDescription, setUserDescription] = React.useState('');
-    const [userAvatar, setUserAvatar] = React.useState('');
+    const [userName, setUserName] = React.useState();
+    const [userDescription, setUserDescription] = React.useState();
+    const [userAvatar, setUserAvatar] = React.useState();
 
     React.useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])

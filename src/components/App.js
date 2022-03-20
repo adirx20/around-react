@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../index.css';
 import logo from '../images/header-logo.svg';
+import api from '../utils/api';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -14,8 +15,6 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-
-  const [input, setInput] = React.useState();
 
   // FUNCTIONS
   function handleEditProfileClick() {
@@ -40,8 +39,8 @@ function App() {
     setIsAddCardPopupOpen(false);
   }
 
-  function handleInputChange(event) {
-    setInput(event.target.value);
+  function handleAvatarInput(url) {
+    api.editAvatar(url.target.value);
   }
 
   // JSX
@@ -58,16 +57,16 @@ function App() {
 
         <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
           <input id='name-input' className='form__input form__input_type_name' type='text' name='name' placeholder='Name'
-            value='' required minLength='2' maxLength='40' onChange={handleInputChange} />
+            defaultValue='' required minLength='2' maxLength='40' />
           <span id='name-input-error' className='form__input-error-message'></span>
           <input id='proffession-input' className='form__input form__input_type_profession' type='text' name='profession'
-            placeholder='About me' value='' required minLength='2' maxLength='200' />
+            placeholder='About me' defaultValue='' required minLength='2' maxLength='200' />
           <span id='proffession-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
 
         <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save' isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
           <input id='avatar-link-input' className='form__input form__input_type_avatar-link' type='url' name='avatar-link'
-            placeholder='Image URL' value='' required />
+            placeholder='Image URL' defaultValue='' required onChange={handleAvatarInput(value)} />
           <span id='avatar-link-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
 
