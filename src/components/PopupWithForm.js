@@ -1,5 +1,18 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 // =====>
 function PopupWithForm(props) {
+    // React.useEffect(() => {
+    //     const submitForm = document.querySelector('.form');
+
+    //     submitForm.addEventListeners('submit', (evt) => {
+    //         evt.preventDefault();
+    //         props.handleSubmit();
+    //     })
+    // })
+    
+
     return (
         <>
 

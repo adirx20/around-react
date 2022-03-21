@@ -39,9 +39,19 @@ function App() {
     setIsAddCardPopupOpen(false);
   }
 
-  function handleAvatarInput(url) {
-    api.editAvatar(url.target.value);
+  function handleInput(evt) {
+    console.log(evt.target.value);
+    return evt.target.value;
   }
+
+  function editAvatar(url) {
+    const avatarLink = document.querySelector('.form__input_type_avatar-link').value;
+
+    api.editAvatar(avatarLink);
+  }
+
+  // EVENT LISTENERS
+
 
   // JSX
   return (
@@ -64,9 +74,9 @@ function App() {
           <span id='proffession-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
 
-        <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save' isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+        <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save' isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} handleSubmit={editAvatar}>
           <input id='avatar-link-input' className='form__input form__input_type_avatar-link' type='url' name='avatar-link'
-            placeholder='Image URL' defaultValue='' required onChange={handleAvatarInput(value)} />
+            placeholder='Image URL' defaultValue='' required onChange={handleInput} />
           <span id='avatar-link-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
 
