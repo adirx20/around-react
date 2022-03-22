@@ -5,21 +5,21 @@ import api from '../utils/api';
 // =====>
 function Main(props) {
     // STATE VARIABLES
-    const [userName, setUserName] = React.useState();
-    const [userDescription, setUserDescription] = React.useState();
-    const [userAvatar, setUserAvatar] = React.useState();
+    // const [userName, setUserName] = React.useState();
+    // const [userDescription, setUserDescription] = React.useState();
+    // const [userAvatar, setUserAvatar] = React.useState();
 
-    React.useEffect(() => {
-        Promise.all([api.getUserInfo(), api.getInitialCards()])
-            .then(([userData, cardsData]) => {
-                setUserName(userData.name);
-                setUserDescription(userData.about);
-                setUserAvatar(userData.avatar);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    })
+    // React.useEffect(() => {
+    //     Promise.all([api.getUserInfo(), api.getInitialCards()])
+    //         .then(([userData, cardsData]) => {
+    //             setUserName(userData.name);
+    //             setUserDescription(userData.about);
+    //             setUserAvatar(userData.avatar);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    // })
 
     return (
         <>
@@ -28,14 +28,14 @@ function Main(props) {
 
                 <section className='profile'>
                     <div className='profile__avatar-container'>
-                        <img className='profile__avatar' src='#' alt='' style={{ backgroundImage: `url(${userAvatar})` }} />
+                        <img className='profile__avatar' src='#' alt='' style={{ backgroundImage: `url(${props.userAvatar})` }} />
                         <div className='profile__avatar-overlay'></div>
                         <button className='profile__avatar-button button-effect' type='button' aria-label='edit' onClick={props.onEditAvatarClick}></button>
                     </div>
                     <div className='profile__info-container'>
-                        <h1 className='profile__name'>{userName}</h1>
+                        <h1 className='profile__name'>{props.userName}</h1>
                         <button className='profile__edit-button button-effect' type='button' aria-label='edit' onClick={props.onEditProfileClick}></button>
-                        <p className='profile__profession'>{userDescription}</p>
+                        <p className='profile__profession'>{props.userDescription}</p>
                     </div>
                     <button className='profile__add-button button-effect' type='button' aria-label='add' onClick={props.onAddCardClick}></button>
                 </section>

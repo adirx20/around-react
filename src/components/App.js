@@ -11,10 +11,28 @@ import ImagePopup from './ImagePopup';
 
 // =====>
 function App() {
-  // STATE VARIABLES
+  // POPUPS' STATE VARIABLES
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+
+  // USER DATA STATE VARIABLES
+  const [userName, setUserName] = React.useState();
+  const [userDescription, setUserDescription] = React.useState();
+  const [userAvatar, setUserAvatar] = React.useState();
+
+  React.useEffect(() => {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+          .then(([userData, cardsData]) => {
+              setUserName(userData.name);
+              setUserDescription(userData.about);
+              setUserAvatar(userData.avatar);
+          })
+          .catch((err) => {
+              console.log(err);
+          })
+  })
+
 
   // FUNCTIONS
   function handleEditProfileClick() {
@@ -39,13 +57,18 @@ function App() {
     setIsAddCardPopupOpen(false);
   }
 
+
   function handleInput(evt) {
-    console.log(evt.target.value);
+
+    const inputElement = document.querySelector('.form__input_type_avatar-link');
+    console.log(evt.target.value, inputElement);
     return evt.target.value;
   }
 
-  function editAvatar(url) {
+  function editAvatar() {
     const avatarLink = document.querySelector('.form__input_type_avatar-link').value;
+    
+    console.log('submit', avatarLink);
 
     api.editAvatar(avatarLink);
   }
@@ -61,7 +84,8 @@ function App() {
 
         <Header logo={logo} />
 
-        <Main onEditProfileClick={handleEditProfileClick} onAddCardClick={handleAddCardClick} onEditAvatarClick={handleEditAvatarClick} onCardClick={handleCardClick} />
+        <Main onEditProfileClick={handleEditProfileClick} onAddCardClick={handleAddCardClick} onEditAvatarClick={handleEditAvatarClick} onCardClick={handleCardClick}
+        userName={userName} userDescription={userDescription} userAvatar={userAvatar} />
 
         <Footer />
 
@@ -82,10 +106,10 @@ function App() {
 
         <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save' isOpen={isAddCardPopupOpen} onClose={closeAllPopups}>
           <input id='card-input' className='form__input form__input_type_card-title' type='text' name='card-title'
-            placeholder='Title' value='' required minLength='1' maxLength='30' />
+            placeholder='Title' defaultValue='' required minLength='1' maxLength='30' />
           <span id='card-input-error' className='form__input-error-message'></span>
           <input id='card-link-input' className='form__input form__input_type_card-link' type='url' name='card-link'
-            placeholder='Image URL' value='' required />
+            placeholder='Image URL' defaultValue='' required />
           <span id='card-link-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
 
