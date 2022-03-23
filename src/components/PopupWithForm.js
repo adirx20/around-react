@@ -6,7 +6,6 @@ function PopupWithForm(props) {
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        console.log('asd');
         props.handleSubmit();
     }
 

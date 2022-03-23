@@ -22,15 +22,15 @@ function App() {
   const [userAvatar, setUserAvatar] = React.useState();
 
   React.useEffect(() => {
-      Promise.all([api.getUserInfo(), api.getInitialCards()])
-          .then(([userData, cardsData]) => {
-              setUserName(userData.name);
-              setUserDescription(userData.about);
-              setUserAvatar(userData.avatar);
-          })
-          .catch((err) => {
-              console.log(err);
-          })
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardsData]) => {
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   })
 
 
@@ -60,17 +60,30 @@ function App() {
 
   function handleInput(evt) {
 
-    const inputElement = document.querySelector('.form__input_type_avatar-link');
-    console.log(evt.target.value, inputElement);
+    // const inputElement = document.querySelector('.form__input_type_avatar-link');
+    // console.log(evt.target.value, inputElement);
     return evt.target.value;
   }
 
   function editAvatar() {
     const avatarLink = document.querySelector('.form__input_type_avatar-link').value;
-    
-    console.log('submit', avatarLink);
 
-    api.editAvatar(avatarLink);
+    // console.log('submit', avatarLink);
+
+
+    api.editAvatar(avatarLink)
+      .then((res) => {
+        console.log('res', res)
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        console.log('data', data);
+        setUserAvatar(data.avatar)
+      })
+
+
   }
 
   // EVENT LISTENERS
@@ -85,7 +98,7 @@ function App() {
         <Header logo={logo} />
 
         <Main onEditProfileClick={handleEditProfileClick} onAddCardClick={handleAddCardClick} onEditAvatarClick={handleEditAvatarClick} onCardClick={handleCardClick}
-        userName={userName} userDescription={userDescription} userAvatar={userAvatar} />
+          userName={userName} userDescription={userDescription} userAvatar={userAvatar} />
 
         <Footer />
 
