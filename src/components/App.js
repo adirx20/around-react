@@ -21,6 +21,9 @@ function App() {
   const [userDescription, setUserDescription] = React.useState();
   const [userAvatar, setUserAvatar] = React.useState();
 
+  // CARDS STATE VARIABLES
+  const [cards, setCards] = React.useState([]);
+
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsData]) => {
@@ -59,31 +62,48 @@ function App() {
 
 
   function handleInput(evt) {
-
-    // const inputElement = document.querySelector('.form__input_type_avatar-link');
-    // console.log(evt.target.value, inputElement);
     return evt.target.value;
   }
 
   function editAvatar() {
     const avatarLink = document.querySelector('.form__input_type_avatar-link').value;
 
-    // console.log('submit', avatarLink);
-
-
     api.editAvatar(avatarLink)
-      .then((res) => {
-        console.log('res', res)
-        if (res.ok) {
-          return res.json();
-        }
-      })
       .then((data) => {
-        console.log('data', data);
-        setUserAvatar(data.avatar)
+        setUserAvatar(data.avatar);
+        closeAllPopups();
       })
+      .catch((err) => {
+        console.log('error', err);
+      })
+  }
 
+  function editProfile() {
+    const name = document.querySelector('.form__input_type_name').value;
+    const about = document.querySelector('.form__input_type_profession').value;
 
+    api.editProfile({ name, about })
+    .then((data) => {
+      setUserName(data.name);
+      setUserDescription(data.about);
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.log('error', err);
+    })
+  }
+
+  function createCard() {
+    const cardTitle = document.querySelector('.form__input_type_card-title').value;
+    const cardLink = document.querySelector('.form__input_type_card-link').value;
+
+    api.createCard({ name: cardTitle, link: cardLink })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log('error', err);
+    })
   }
 
   // EVENT LISTENERS
@@ -102,7 +122,7 @@ function App() {
 
         <Footer />
 
-        <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
+        <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} handleSubmit={editProfile}>
           <input id='name-input' className='form__input form__input_type_name' type='text' name='name' placeholder='Name'
             defaultValue='' required minLength='2' maxLength='40' />
           <span id='name-input-error' className='form__input-error-message'></span>
@@ -117,7 +137,7 @@ function App() {
           <span id='avatar-link-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
 
-        <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save' isOpen={isAddCardPopupOpen} onClose={closeAllPopups}>
+        <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save' isOpen={isAddCardPopupOpen} onClose={closeAllPopups} handleSubmit={createCard}>
           <input id='card-input' className='form__input form__input_type_card-title' type='text' name='card-title'
             placeholder='Title' defaultValue='' required minLength='1' maxLength='30' />
           <span id='card-input-error' className='form__input-error-message'></span>

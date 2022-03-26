@@ -26,8 +26,8 @@ class Api {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
-        name: data['name'],
-        about: data['profession']
+        name: data.name,
+        about: data.about
       })
     })
   }
@@ -37,7 +37,7 @@ class Api {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
-        avatar: url['avatar-link']
+        avatar: url
       })
     })
   }
@@ -47,8 +47,8 @@ class Api {
       headers: this._headers,
       method: 'POST',
       body: JSON.stringify({
-        name: data['card-title'],
-        link: data['card-link']
+        name: data.name,
+        link: data.link
       })
     })
   }
