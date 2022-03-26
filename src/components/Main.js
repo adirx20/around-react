@@ -1,25 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import api from '../utils/api';
+import Card from '../components/Card';
 
 // =====>
 function Main(props) {
-    // STATE VARIABLES
-    // const [userName, setUserName] = React.useState();
-    // const [userDescription, setUserDescription] = React.useState();
-    // const [userAvatar, setUserAvatar] = React.useState();
-
-    // React.useEffect(() => {
-    //     Promise.all([api.getUserInfo(), api.getInitialCards()])
-    //         .then(([userData, cardsData]) => {
-    //             setUserName(userData.name);
-    //             setUserDescription(userData.about);
-    //             setUserAvatar(userData.avatar);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         })
-    // })
+    const cards = props.cardsElement;
 
     return (
         <>
@@ -41,6 +27,12 @@ function Main(props) {
                 </section>
 
                 <section className='elements'>
+                    {
+                        cards.map((element) => {
+                            <Card card={element} key={element._id} />
+                            console.log('carddd', element._id);
+                        })
+                    }
                 </section>
 
             </main>

@@ -5,6 +5,7 @@ import logo from '../images/header-logo.svg';
 import api from '../utils/api';
 import Header from './Header';
 import Main from './Main';
+import Card from './Card';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
@@ -30,6 +31,9 @@ function App() {
         setUserName(userData.name);
         setUserDescription(userData.about);
         setUserAvatar(userData.avatar);
+
+        setCards(cardsData);
+        console.log('cards', cards[1]);
       })
       .catch((err) => {
         console.log(err);
@@ -118,7 +122,7 @@ function App() {
         <Header logo={logo} />
 
         <Main onEditProfileClick={handleEditProfileClick} onAddCardClick={handleAddCardClick} onEditAvatarClick={handleEditAvatarClick} onCardClick={handleCardClick}
-          userName={userName} userDescription={userDescription} userAvatar={userAvatar} />
+          userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} />
 
         <Footer />
 
