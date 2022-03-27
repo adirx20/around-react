@@ -28,10 +28,9 @@ function Main(props) {
 
                 <section className='elements'>
                     {
-                        cards.map((element) => {
-                            <Card card={element} key={element._id} />
-                            console.log('carddd', element._id);
-                        })
+                        cards.map((element) => (
+                            <Card card={element} key={element._id} onDeleteCardClick={props.deleteCardButton} />
+                        ))
                     }
                 </section>
 

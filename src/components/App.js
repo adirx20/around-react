@@ -16,6 +16,8 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
 
   // USER DATA STATE VARIABLES
   const [userName, setUserName] = React.useState();
@@ -25,6 +27,7 @@ function App() {
   // CARDS STATE VARIABLES
   const [cards, setCards] = React.useState([]);
 
+
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsData]) => {
@@ -33,12 +36,12 @@ function App() {
         setUserAvatar(userData.avatar);
 
         setCards(cardsData);
-        console.log('cards', cards[1]);
+        console.log('cards', cardsData);
       })
       .catch((err) => {
         console.log(err);
       })
-  })
+  }, [])
 
 
   // FUNCTIONS
@@ -55,13 +58,20 @@ function App() {
   }
 
   function handleCardClick() {
-    document.querySelector('.popup_type_image').classList.add('popup_opened');
+    setIsImagePopupOpen(!isImagePopupOpen);
+  }
+
+  function handleDeleteCardClick(evt) {
+    setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
+    console.log('evt', document.querySelector()) // NEED TO FIX DELETE CARD AND IMAGE POPUP!!!
   }
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddCardPopupOpen(false);
+    setIsImagePopupOpen(false);
+    setIsDeleteCardPopupOpen(false);
   }
 
 
@@ -110,6 +120,10 @@ function App() {
     })
   }
 
+  function deleteCard(card) {
+
+  }
+
   // EVENT LISTENERS
 
 
@@ -122,7 +136,7 @@ function App() {
         <Header logo={logo} />
 
         <Main onEditProfileClick={handleEditProfileClick} onAddCardClick={handleAddCardClick} onEditAvatarClick={handleEditAvatarClick} onCardClick={handleCardClick}
-          userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} />
+          userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} deleteCardButton={handleDeleteCardClick} />
 
         <Footer />
 
@@ -150,9 +164,9 @@ function App() {
           <span id='card-link-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
 
-        <PopupWithForm name='delete-card' title='Are you sure?' saveButtonTitle='Yes' onClose={closeAllPopups} />
+        <PopupWithForm name='delete-card' title='Are you sure?' saveButtonTitle='Yes' isOpen={isDeleteCardPopupOpen} onClose={closeAllPopups} />
 
-        <ImagePopup />
+        <ImagePopup isOpen={isImagePopupOpen} onClose={closeAllPopups} />
 
       </div>
 
