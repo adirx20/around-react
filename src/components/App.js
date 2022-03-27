@@ -63,7 +63,7 @@ function App() {
 
   function handleDeleteCardClick(evt) {
     setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
-    console.log('evt', document.querySelector()) // NEED TO FIX DELETE CARD AND IMAGE POPUP!!!
+  // NEED TO FIX DELETE CARD AND IMAGE POPUP!!!
   }
 
   function closeAllPopups() {
