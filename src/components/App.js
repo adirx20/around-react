@@ -9,6 +9,7 @@ import Card from './Card';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import { getCardId } from './Card';
 
 // =====>
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
   // CARDS STATE VARIABLES
   const [cards, setCards] = React.useState([]);
+  const [selectedCard, setSelectedCard] = React.useState({})
 
 
   React.useEffect(() => {
@@ -37,6 +39,7 @@ function App() {
 
         setCards(cardsData);
         console.log('cards', cardsData);
+        console.log('getcardId', getcardId())
       })
       .catch((err) => {
         console.log(err);
