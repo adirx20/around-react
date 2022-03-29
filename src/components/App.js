@@ -9,7 +9,6 @@ import Card from './Card';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
-import { getCardId } from './Card';
 
 // =====>
 function App() {
@@ -27,7 +26,7 @@ function App() {
 
   // CARDS STATE VARIABLES
   const [cards, setCards] = React.useState([]);
-  const [selectedCard, setSelectedCard] = React.useState({})
+  const [selectedCard, setSelectedCard] = React.useState('');
 
 
   React.useEffect(() => {
@@ -39,7 +38,6 @@ function App() {
 
         setCards(cardsData);
         console.log('cards', cardsData);
-        console.log('getcardId', getcardId())
       })
       .catch((err) => {
         console.log(err);
@@ -64,9 +62,15 @@ function App() {
     setIsImagePopupOpen(!isImagePopupOpen);
   }
 
-  function handleDeleteCardClick(evt) {
+  function handleDeleteCardClick(id) {
+    console.log('id', id);
+    setSelectedCard(id);
     setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
-  // NEED TO FIX DELETE CARD AND IMAGE POPUP!!!
+  }
+
+  function handleLikeButtonClick(id) {
+    console.log('likeId', id);
+    setSelectedCard(id);
   }
 
   function closeAllPopups() {
@@ -100,14 +104,14 @@ function App() {
     const about = document.querySelector('.form__input_type_profession').value;
 
     api.editProfile({ name, about })
-    .then((data) => {
-      setUserName(data.name);
-      setUserDescription(data.about);
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.log('error', err);
-    })
+      .then((data) => {
+        setUserName(data.name);
+        setUserDescription(data.about);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log('error', err);
+      })
   }
 
   function createCard() {
@@ -115,16 +119,44 @@ function App() {
     const cardLink = document.querySelector('.form__input_type_card-link').value;
 
     api.createCard({ name: cardTitle, link: cardLink })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log('error', err);
-    })
+      .then((data) => {
+        console.log(data);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log('error', err);
+      })
   }
 
-  function deleteCard(card) {
+  function deleteCard() {
+    api.deleteCard(selectedCard)
+      .then((data) => {
+        console.log('data deleted', data);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log('error', err);
+      })
+  }
 
+  function likeCard() {
+    api.likeCard(selectedCard)
+      .then((data) => {
+        console.log('card liked', data);
+      })
+      .catch((err) => {
+        console.log('error', err);
+      })
+  }
+
+  function unlikeCard() {
+    api.unlikeCard(selectedCard)
+      .then((data) => {
+        console.log('card unliked', data);
+      })
+      .catch((err) => {
+        console.log('error', err);
+      })
   }
 
   // EVENT LISTENERS
@@ -139,7 +171,7 @@ function App() {
         <Header logo={logo} />
 
         <Main onEditProfileClick={handleEditProfileClick} onAddCardClick={handleAddCardClick} onEditAvatarClick={handleEditAvatarClick} onCardClick={handleCardClick}
-          userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} deleteCardButton={handleDeleteCardClick} />
+          userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} deleteCardButton={handleDeleteCardClick} likeButton={handleLikeButtonClick} handleLike={likeCard} handleUnlike={unlikeCard} />
 
         <Footer />
 
@@ -167,7 +199,7 @@ function App() {
           <span id='card-link-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
 
-        <PopupWithForm name='delete-card' title='Are you sure?' saveButtonTitle='Yes' isOpen={isDeleteCardPopupOpen} onClose={closeAllPopups} />
+        <PopupWithForm name='delete-card' title='Are you sure?' saveButtonTitle='Yes' isOpen={isDeleteCardPopupOpen} onClose={closeAllPopups} handleSubmit={deleteCard} />
 
         <ImagePopup isOpen={isImagePopupOpen} onClose={closeAllPopups} />
 
