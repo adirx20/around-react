@@ -139,25 +139,25 @@ function App() {
       })
   }
 
-  function likeCard() {
-    api.likeCard(selectedCard)
-      .then((data) => {
-        console.log('card liked', data);
-      })
-      .catch((err) => {
-        console.log('error', err);
-      })
-  }
+  // function likeCard() {
+  //   api.likeCard(selectedCard)
+  //     .then((data) => {
+  //       console.log('card liked', data);
+  //     })
+  //     .catch((err) => {
+  //       console.log('error', err);
+  //     })
+  // }
 
-  function unlikeCard() {
-    api.unlikeCard(selectedCard)
-      .then((data) => {
-        console.log('card unliked', data);
-      })
-      .catch((err) => {
-        console.log('error', err);
-      })
-  }
+  // function unlikeCard() {
+  //   api.unlikeCard(selectedCard)
+  //     .then((data) => {
+  //       console.log('card unliked', data);
+  //     })
+  //     .catch((err) => {
+  //       console.log('error', err);
+  //     })
+  // }
 
   // EVENT LISTENERS
 
@@ -171,7 +171,7 @@ function App() {
         <Header logo={logo} />
 
         <Main onEditProfileClick={handleEditProfileClick} onAddCardClick={handleAddCardClick} onEditAvatarClick={handleEditAvatarClick} onCardClick={handleCardClick}
-          userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} deleteCardButton={handleDeleteCardClick} likeButton={handleLikeButtonClick} handleLike={likeCard} handleUnlike={unlikeCard} />
+          userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} deleteCardButton={handleDeleteCardClick} likeButton={handleLikeButtonClick} />
 
         <Footer />
 
