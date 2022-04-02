@@ -16,9 +16,7 @@ function Card(props) {
         console.log('array', props.card.likes)
 
         return props.card.likes.some((like) => {
-            console.log('props', props);
-            console.log('person', like._id);
-            return like._id === props.card._id;
+            return like._id === props.userId;
         });
     }
 
@@ -34,23 +32,23 @@ function Card(props) {
 
     function likeCard() {
         api.likeCard(props.card._id)
-          .then((data) => {
-            console.log('card liked', data);
-          })
-          .catch((err) => {
-            console.log('error', err);
-          })
-      }
-    
-      function unlikeCard() {
+            .then((data) => {
+                console.log('card liked', data);
+            })
+            .catch((err) => {
+                console.log('error', err);
+            })
+    }
+
+    function unlikeCard() {
         api.unlikeCard(props.card._id)
-          .then((data) => {
-            console.log('card unliked', data);
-          })
-          .catch((err) => {
-            console.log('error', err);
-          })
-      }
+            .then((data) => {
+                console.log('card unliked', data);
+            })
+            .catch((err) => {
+                console.log('error', err);
+            })
+    }
 
     function likeToggle() {
         if (isLiked()) {

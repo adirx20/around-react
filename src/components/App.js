@@ -20,6 +20,7 @@ function App() {
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
 
   // USER DATA STATE VARIABLES
+  const [userId, setUserId] = React.useState();
   const [userName, setUserName] = React.useState();
   const [userDescription, setUserDescription] = React.useState();
   const [userAvatar, setUserAvatar] = React.useState();
@@ -32,6 +33,7 @@ function App() {
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsData]) => {
+        setUserId(userData._id);
         setUserName(userData.name);
         setUserDescription(userData.about);
         setUserAvatar(userData.avatar);
@@ -139,26 +141,6 @@ function App() {
       })
   }
 
-  // function likeCard() {
-  //   api.likeCard(selectedCard)
-  //     .then((data) => {
-  //       console.log('card liked', data);
-  //     })
-  //     .catch((err) => {
-  //       console.log('error', err);
-  //     })
-  // }
-
-  // function unlikeCard() {
-  //   api.unlikeCard(selectedCard)
-  //     .then((data) => {
-  //       console.log('card unliked', data);
-  //     })
-  //     .catch((err) => {
-  //       console.log('error', err);
-  //     })
-  // }
-
   // EVENT LISTENERS
 
 
@@ -171,7 +153,7 @@ function App() {
         <Header logo={logo} />
 
         <Main onEditProfileClick={handleEditProfileClick} onAddCardClick={handleAddCardClick} onEditAvatarClick={handleEditAvatarClick} onCardClick={handleCardClick}
-          userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} deleteCardButton={handleDeleteCardClick} likeButton={handleLikeButtonClick} />
+          userId={userId} userName={userName} userDescription={userDescription} userAvatar={userAvatar} cardsElement={cards} deleteCardButton={handleDeleteCardClick} likeButton={handleLikeButtonClick} />
 
         <Footer />
 

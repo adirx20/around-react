@@ -29,7 +29,7 @@ function Main(props) {
                 <section className='elements'>
                     {
                         cards.map((element) => (
-                            <Card card={element} key={element._id} onDeleteCardClick={props.deleteCardButton} onLikeClick={props.likeButton} />
+                            <Card card={element} key={element._id} onDeleteCardClick={props.deleteCardButton} onLikeClick={props.likeButton} userId={props.userId} />
                         ))
                     }
                 </section>
