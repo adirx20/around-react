@@ -64,7 +64,6 @@ function Card(props) {
     // USE EFFECT
     React.useEffect(() => {
         console.log('isLiked', isLiked());
-        // console.log('likecardeffect', props.onlikeCard(props.card._id))
     })
 
     return (
