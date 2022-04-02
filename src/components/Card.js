@@ -13,7 +13,13 @@ function Card(props) {
 
     // FUNCTIONS
     function isLiked() {
-        return props.card.likes.some((person) => person._id == props.card._id);
+        console.log('array', props.card.likes)
+
+        return props.card.likes.some((like) => {
+            console.log('props', props);
+            console.log('person', like._id);
+            return like._id === props.card._id;
+        });
     }
 
     function getDeleteCardId() {
@@ -49,10 +55,10 @@ function Card(props) {
     function likeToggle() {
         if (isLiked()) {
             unlikeCard();
-            console.log('this card is UNLIKED');
+            console.log('this card is UNLIKED', isLiked());
         } else {
             likeCard();
-            console.log('this card is LIKED');
+            console.log('this card is LIKED', isLiked());
         }
     }
 
