@@ -20,10 +20,10 @@ function App() {
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
 
   // USER DATA STATE VARIABLES
-  const [userId, setUserId] = React.useState();
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
+  const [userId, setUserId] = React.useState('');
+  const [userName, setUserName] = React.useState('');
+  const [userDescription, setUserDescription] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState('');
 
   // CARDS STATE VARIABLES
   const [cards, setCards] = React.useState([]);
