@@ -61,21 +61,19 @@ function Card(props) {
     };
 
     return (
-        <>
 
-            <article className='element' key={props.card._id}>
-                <div className='element__image' style={imageStyle} onClick={openImage}></div>
-                <button className='element__delete-button button-effect' aria-label='delete' onClick={getDeleteCardId}></button>
-                <div className='element__bar'>
-                    <h2 className='element__title'>{props.card.name}</h2>
-                    <div className='element__likes-container'>
-                        <button className={`element__like-button ${isLiked() ? 'element__like-button_active' : ''}`} type='button' aria-label='like' onMouseDown={getLikeId} onClick={likeToggle}></button>
-                        <span className='element__likes-count'>{props.card.likes.length}</span>
-                    </div>
+        <article className='element'>
+            <div className='element__image' style={imageStyle} onClick={openImage}></div>
+            <button className='element__delete-button button-effect' aria-label='delete' onClick={getDeleteCardId}></button>
+            <div className='element__bar'>
+                <h2 className='element__title'>{props.card.name}</h2>
+                <div className='element__likes-container'>
+                    <button className={`element__like-button ${isLiked() ? 'element__like-button_active' : ''}`} type='button' aria-label='like' onMouseDown={getLikeId} onClick={likeToggle}></button>
+                    <span className='element__likes-count'>{props.card.likes.length}</span>
                 </div>
-            </article>
+            </div>
+        </article>
 
-        </>
     );
 }
 // <=====
