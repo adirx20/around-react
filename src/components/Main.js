@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import api from '../utils/api';
+import ImagePopup from './ImagePopup';
 import Card from '../components/Card';
 
 // =====>
@@ -19,9 +20,10 @@ function Main(props) {
     const [selectedImage, setSelectedImage] = React.useState(null);
 
     // FUNCTIONS
-    function handleCardClick(link) {
-        setSelectedImage(link);
+    function handleCardClick(element) {
+        setSelectedImage(element);
         props.onCardClick();
+        console.log('IMAGEIMAGE', selectedImage)
     }
 
     function handleDeleteCardClick(id) {
@@ -83,6 +85,13 @@ function Main(props) {
                     ))
                 }
             </section>
+
+            <ImagePopup
+                isOpen={props.isImagePopupOpen}
+                onClose={props.onClose}
+                imageLink={selectedImage.link}
+                imageCaption={selectedImage.name}
+            />
 
         </main>
 

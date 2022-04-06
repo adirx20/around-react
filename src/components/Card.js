@@ -57,7 +57,9 @@ function Card(props) {
     }
 
     function openImage() {
-        props.onCardClick(props.card.link);
+        props.onCardClick(props.card);
+        console.log('image', props.card.link);
+        console.log('imagec', props.card.name);
     };
 
     return (

@@ -120,6 +120,8 @@ function App() {
         onEditAvatarClick={handleEditAvatarClick}
         onCardClick={handleCardClick}
         deleteCardButton={handleDeleteCardClick}
+        onClose={closeAllPopups}
+        isImagePopupOpen={isImagePopupOpen}
       />
 
       <Footer />
@@ -162,10 +164,10 @@ function App() {
         onClose={closeAllPopups}
         handleSubmit={deleteCard} />
 
-      <ImagePopup
+      {/* <ImagePopup
         isOpen={isImagePopupOpen}
         onClose={closeAllPopups}
-      />
+      /> */}
 
     </div>
 
