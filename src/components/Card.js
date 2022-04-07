@@ -56,16 +56,14 @@ function Card(props) {
         }
     }
 
-    function openImage() {
+    function getImage() {
         props.onCardClick(props.card);
-        console.log('image', props.card.link);
-        console.log('imagec', props.card.name);
     };
 
     return (
 
         <article className='element'>
-            <div className='element__image' style={imageStyle} onClick={openImage}></div>
+            <div className='element__image' style={imageStyle} onMouseDown={getImage} onClick={props.renderImage}></div>
             <button className='element__delete-button button-effect' aria-label='delete' onClick={getDeleteCardId}></button>
             <div className='element__bar'>
                 <h2 className='element__title'>{props.card.name}</h2>

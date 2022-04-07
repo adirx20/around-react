@@ -17,13 +17,15 @@ function Main(props) {
     // CARDS STATE VARIABLES
     const [cards, setCards] = React.useState([]);
     const [selectedCard, setSelectedCard] = React.useState(null);
-    const [selectedImage, setSelectedImage] = React.useState(null);
+    const [selectedImage, setSelectedImage] = React.useState({});
 
     // FUNCTIONS
     function handleCardClick(element) {
         setSelectedImage(element);
+    }
+
+    function handleImage() {
         props.onCardClick();
-        console.log('IMAGEIMAGE', selectedImage)
     }
 
     function handleDeleteCardClick(id) {
@@ -52,8 +54,6 @@ function Main(props) {
             })
     }, [])
 
-    // style={{ backgroundImage: `url(${userAvatar})` }}
-
     return (
 
         <main className='content'>
@@ -81,6 +81,7 @@ function Main(props) {
                             onLikeClick={handleLikeButtonClick}
                             userId={userId}
                             onCardClick={handleCardClick}
+                            renderImage={handleImage}
                         />
                     ))
                 }
