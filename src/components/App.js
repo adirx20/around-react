@@ -19,6 +19,10 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
 
+  // SELECTED IMAGE STATE VARIABLE
+  const [selectedImage, setSelectedImage] = React.useState({});
+
+
   // FUNCTIONS
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -36,6 +40,10 @@ function App() {
     setIsImagePopupOpen(!isImagePopupOpen);
   }
 
+  function handleImageClick(element) {
+    setSelectedImage(element);
+}
+
   function handleDeleteCardClick() {
     setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
   }
@@ -52,47 +60,6 @@ function App() {
   function handleInput(evt) {
     return evt.target.value;
   }
-
-  // function editAvatar() {
-  //   const avatarLink = document.querySelector('.form__input_type_avatar-link').value;
-
-  //   api.editAvatar(avatarLink)
-  //     .then((data) => {
-  //       setUserAvatar(data.avatar);
-  //       closeAllPopups();
-  //     })
-  //     .catch((err) => {
-  //       console.log('error', err);
-  //     })
-  // }
-
-  // function editProfile() {
-  //   const name = document.querySelector('.form__input_type_name').value;
-  //   const about = document.querySelector('.form__input_type_profession').value;
-
-  //   api.editProfile({ name, about })
-  //     .then((data) => {
-  //       setUserName(data.name);
-  //       setUserDescription(data.about);
-  //       closeAllPopups();
-  //     })
-  //     .catch((err) => {
-  //       console.log('error', err);
-  //     })
-  // }
-
-  // function createCard() {
-  //   const cardTitle = document.querySelector('.form__input_type_card-title').value;
-  //   const cardLink = document.querySelector('.form__input_type_card-link').value;
-
-  //   api.createCard({ name: cardTitle, link: cardLink })
-  //     .then((data) => {
-  //       closeAllPopups();
-  //     })
-  //     .catch((err) => {
-  //       console.log('error', err);
-  //     })
-  // }
 
   function deleteCard() {
     api.deleteCard()
@@ -120,6 +87,7 @@ function App() {
         onEditAvatarClick={handleEditAvatarClick}
         onCardClick={handleCardClick}
         deleteCardButton={handleDeleteCardClick}
+        onImageClick={handleImageClick}
         onClose={closeAllPopups}
         isImagePopupOpen={isImagePopupOpen}
       />
@@ -164,10 +132,12 @@ function App() {
         onClose={closeAllPopups}
         handleSubmit={deleteCard} />
 
-      {/* <ImagePopup
+      <ImagePopup
         isOpen={isImagePopupOpen}
         onClose={closeAllPopups}
-      /> */}
+        imageLink={selectedImage.link}
+        imageCaption={selectedImage.name}
+      />
 
     </div>
 

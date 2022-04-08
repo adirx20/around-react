@@ -17,13 +17,8 @@ function Main(props) {
     // CARDS STATE VARIABLES
     const [cards, setCards] = React.useState([]);
     const [selectedCard, setSelectedCard] = React.useState(null);
-    const [selectedImage, setSelectedImage] = React.useState({});
 
     // FUNCTIONS
-    function handleCardClick(element) {
-        setSelectedImage(element);
-    }
-
     function handleImage() {
         props.onCardClick();
     }
@@ -80,19 +75,12 @@ function Main(props) {
                             onDeleteCardClick={handleDeleteCardClick}
                             onLikeClick={handleLikeButtonClick}
                             userId={userId}
-                            onCardClick={handleCardClick}
+                            onCardClick={props.onImageClick}
                             renderImage={handleImage}
                         />
                     ))
                 }
             </section>
-
-            <ImagePopup
-                isOpen={props.isImagePopupOpen}
-                onClose={props.onClose}
-                imageLink={selectedImage.link}
-                imageCaption={selectedImage.name}
-            />
 
         </main>
 
