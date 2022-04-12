@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import '../index.css';
 import logo from '../images/header-logo.svg';
 import api from '../utils/api';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 import Header from './Header';
 import Main from './Main';
 import Card from './Card';
@@ -12,6 +13,9 @@ import ImagePopup from './ImagePopup';
 
 // =====>
 function App() {
+  // USER STATE VARIABLES
+  const [currentUser, setCurrentUser] = React.useState();
+
   // POPUPS' STATE VARIABLES
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddCardPopupOpen, setIsAddCardPopupOpen] = React.useState(false);
@@ -42,7 +46,7 @@ function App() {
 
   function handleImageClick(element) {
     setSelectedImage(element);
-}
+  }
 
   function handleDeleteCardClick() {
     setIsDeleteCardPopupOpen(!isDeleteCardPopupOpen);
@@ -71,73 +75,83 @@ function App() {
       })
   }
 
-  // EVENT LISTENERS
-
+  // MOUNTING
+  React.useEffect(() => {
+    Promise.all([api.getUserInfo()])
+      .then(([userData]) => {
+        setCurrentUser(userData);
+        console.log(userData);
+      })
+  })
 
   // JSX
   return (
 
     <div className='page'>
 
-      <Header logo={logo} />
+      <CurrentUserContext.Provider value={currentUser}>
 
-      <Main
-        onEditProfileClick={handleEditProfileClick}
-        onAddCardClick={handleAddCardClick}
-        onEditAvatarClick={handleEditAvatarClick}
-        onCardClick={handleCardClick}
-        deleteCardButton={handleDeleteCardClick}
-        onImageClick={handleImageClick}
-        onClose={closeAllPopups}
-        isImagePopupOpen={isImagePopupOpen}
-      />
+        <Header logo={logo} />
 
-      <Footer />
+        <Main
+          onEditProfileClick={handleEditProfileClick}
+          onAddCardClick={handleAddCardClick}
+          onEditAvatarClick={handleEditAvatarClick}
+          onCardClick={handleCardClick}
+          deleteCardButton={handleDeleteCardClick}
+          onImageClick={handleImageClick}
+          onClose={closeAllPopups}
+          isImagePopupOpen={isImagePopupOpen}
+        />
 
-      <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save'
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <input id='name-input' className='form__input form__input_type_name' type='text' name='name' placeholder='Name'
-          defaultValue='' required minLength='2' maxLength='40' />
-        <span id='name-input-error' className='form__input-error-message'></span>
-        <input id='proffession-input' className='form__input form__input_type_profession' type='text' name='profession'
-          placeholder='About me' defaultValue='' required minLength='2' maxLength='200' />
-        <span id='proffession-input-error' className='form__input-error-message'></span>
-      </PopupWithForm>
+        <Footer />
 
-      <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save'
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      >
-        <input id='avatar-link-input' className='form__input form__input_type_avatar-link' type='url' name='avatar-link'
-          placeholder='Image URL' defaultValue='' required onChange={handleInput} />
-        <span id='avatar-link-input-error' className='form__input-error-message'></span>
-      </PopupWithForm>
+        <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save'
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+        >
+          <input id='name-input' className='form__input form__input_type_name' type='text' name='name' placeholder='Name'
+            defaultValue='' required minLength='2' maxLength='40' />
+          <span id='name-input-error' className='form__input-error-message'></span>
+          <input id='proffession-input' className='form__input form__input_type_profession' type='text' name='profession'
+            placeholder='About me' defaultValue='' required minLength='2' maxLength='200' />
+          <span id='proffession-input-error' className='form__input-error-message'></span>
+        </PopupWithForm>
 
-      <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save'
-        isOpen={isAddCardPopupOpen}
-        onClose={closeAllPopups}
-      >
-        <input id='card-input' className='form__input form__input_type_card-title' type='text' name='card-title'
-          placeholder='Title' defaultValue='' required minLength='1' maxLength='30' />
-        <span id='card-input-error' className='form__input-error-message'></span>
-        <input id='card-link-input' className='form__input form__input_type_card-link' type='url' name='card-link'
-          placeholder='Image URL' defaultValue='' required />
-        <span id='card-link-input-error' className='form__input-error-message'></span>
-      </PopupWithForm>
+        <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save'
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        >
+          <input id='avatar-link-input' className='form__input form__input_type_avatar-link' type='url' name='avatar-link'
+            placeholder='Image URL' defaultValue='' required onChange={handleInput} />
+          <span id='avatar-link-input-error' className='form__input-error-message'></span>
+        </PopupWithForm>
 
-      <PopupWithForm name='delete-card' title='Are you sure?' saveButtonTitle='Yes'
-        isOpen={isDeleteCardPopupOpen}
-        onClose={closeAllPopups}
-        handleSubmit={deleteCard} />
+        <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save'
+          isOpen={isAddCardPopupOpen}
+          onClose={closeAllPopups}
+        >
+          <input id='card-input' className='form__input form__input_type_card-title' type='text' name='card-title'
+            placeholder='Title' defaultValue='' required minLength='1' maxLength='30' />
+          <span id='card-input-error' className='form__input-error-message'></span>
+          <input id='card-link-input' className='form__input form__input_type_card-link' type='url' name='card-link'
+            placeholder='Image URL' defaultValue='' required />
+          <span id='card-link-input-error' className='form__input-error-message'></span>
+        </PopupWithForm>
 
-      <ImagePopup
-        isOpen={isImagePopupOpen}
-        onClose={closeAllPopups}
-        imageLink={selectedImage.link}
-        imageCaption={selectedImage.name}
-      />
+        <PopupWithForm name='delete-card' title='Are you sure?' saveButtonTitle='Yes'
+          isOpen={isDeleteCardPopupOpen}
+          onClose={closeAllPopups}
+          handleSubmit={deleteCard} />
+
+        <ImagePopup
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+          imageLink={selectedImage.link}
+          imageCaption={selectedImage.name}
+        />
+
+      </CurrentUserContext.Provider>
 
     </div>
 

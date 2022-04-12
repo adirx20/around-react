@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import api from '../utils/api';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 import ImagePopup from './ImagePopup';
 import Card from '../components/Card';
 
 // =====>
 function Main(props) {
-    // const cards = props.cardsElement;
+    // CURRENT USER CONTEXT
+    const currentUser = React.useContext(CurrentUserContext); // ------------------------------------------------- CHECK WHY ITS UNDEFINED
 
     // USER DATA STATE VARIABLES
     const [userId, setUserId] = React.useState('');
@@ -32,7 +34,7 @@ function Main(props) {
         setSelectedCard(id);
     }
 
-    // USE EFFECT
+    // MOUNTING
     React.useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
             .then(([userData, cardsData]) => {
@@ -41,6 +43,7 @@ function Main(props) {
                 setUserName(userData.name);
                 setUserDescription(userData.about);
                 setUserAvatar(userData.avatar);
+                console.log('ahasdasdasdasda', currentUser);
                 // CARDS
                 setCards(cardsData);
             })
