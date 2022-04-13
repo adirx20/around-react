@@ -1,22 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import api from '../utils/api';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
 // =====>
 function Card(props) {
+    // CURRENT USER CONTEXT
+    const currentUser = React.useContext(CurrentUserContext);
+    const isOwn = props.card.owner._id === currentUser._id;
+
     // STYLE
     const imageStyle = {
         backgroundImage: `url(${props.card.link})`,
     };
 
-    // STATE VARIABLES
+    // CARD
+    const isLiked = props.card.likes.some(like => like._id === currentUser._id);
+
+    const cardDeleteButtonClassName = (
+        `element__delete-button ${isOwn ? 'element__delete-button_visibile' : 'element__delete-button_hidden'}`
+    );
+    const cardLikeButtonClassName = (
+        `element__like-button ${isLiked ? 'element__like-button_active' : ''}`
+    );
 
     // FUNCTIONS
-    function isLiked() {
-        return props.card.likes.some((like) => {
-            return like._id === props.userId;
-        });
-    }
+    // function isLiked() {
+    //     return props.card.likes.some((like) => {
+    //         return like._id === props.userId;
+    //     });
+    // }
 
     function getDeleteCardId() {
         props.onDeleteCardClick(props.card._id);
@@ -47,12 +60,12 @@ function Card(props) {
     }
 
     function likeToggle() {
-        if (isLiked()) {
+        if (isLiked) {
             unlikeCard();
-            console.log('this card is UNLIKED', isLiked());
+            console.log('this card is UNLIKED', isLiked);
         } else {
             likeCard();
-            console.log('this card is LIKED', isLiked());
+            console.log('this card is LIKED', isLiked);
         }
     }
 
@@ -68,7 +81,7 @@ function Card(props) {
             <div className='element__bar'>
                 <h2 className='element__title'>{props.card.name}</h2>
                 <div className='element__likes-container'>
-                    <button className={`element__like-button ${isLiked() ? 'element__like-button_active' : ''}`} type='button' aria-label='like' onMouseDown={getLikeId} onClick={likeToggle}></button>
+                    <button className={`element__like-button ${isLiked ? 'element__like-button_active' : ''}`} type='button' aria-label='like' onMouseDown={getLikeId} onClick={likeToggle}></button>
                     <span className='element__likes-count'>{props.card.likes.length}</span>
                 </div>
             </div>

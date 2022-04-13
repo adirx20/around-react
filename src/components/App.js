@@ -14,7 +14,7 @@ import ImagePopup from './ImagePopup';
 // =====>
 function App() {
   // USER STATE VARIABLES
-  const [currentUser, setCurrentUser] = React.useState();
+  const [currentUser, setCurrentUser] = React.useState({});
 
   // POPUPS' STATE VARIABLES
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -80,7 +80,6 @@ function App() {
     Promise.all([api.getUserInfo()])
       .then(([userData]) => {
         setCurrentUser(userData);
-        console.log(userData);
       })
   })
 
