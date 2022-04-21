@@ -18,7 +18,7 @@ function Card(props) {
     const isLiked = props.card.likes.some(like => like._id === currentUser._id);
 
     const cardDeleteButtonClassName = (
-        `element__delete-button ${isOwn ? 'element__delete-button_visibile' : 'element__delete-button_hidden'}`
+        `element__delete-button ${isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'} button-effect`
     );
     const cardLikeButtonClassName = (
         `element__like-button ${isLiked ? 'element__like-button_active' : ''}`
@@ -77,7 +77,7 @@ function Card(props) {
 
         <article className='element'>
             <div className='element__image' style={imageStyle} onMouseDown={getImage} onClick={props.renderImage}></div>
-            <button className='element__delete-button button-effect' aria-label='delete' onClick={getDeleteCardId}></button>
+            <button className={cardDeleteButtonClassName} aria-label='delete' onClick={getDeleteCardId}></button>
             <div className='element__bar'>
                 <h2 className='element__title'>{props.card.name}</h2>
                 <div className='element__likes-container'>
