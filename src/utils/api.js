@@ -73,6 +73,13 @@ class Api {
       method: 'DELETE',
     })
   }
+
+  changeLikeCardStatus(cardId, isLiked) {
+    return customFetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+      headers: this._headers,
+      method: isLiked ? 'DELETE' : 'PUT',
+    })
+  }
 }
 
 const api = new Api({

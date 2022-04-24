@@ -18,55 +18,24 @@ function Card(props) {
     const isLiked = props.card.likes.some(like => like._id === currentUser._id);
 
     const cardDeleteButtonClassName = (
-        `element__delete-button ${isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'} button-effect`
+        `element__delete-button ${!isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'} button-effect`
     );
     const cardLikeButtonClassName = (
         `element__like-button ${isLiked ? 'element__like-button_active' : ''}`
     );
 
     // FUNCTIONS
-    // function isLiked() {
-    //     return props.card.likes.some((like) => {
-    //         return like._id === props.userId;
-    //     });
-    // }
-
     function getDeleteCardId() {
         props.onDeleteCardClick(props.card._id);
     }
 
-    function getLikeId() {
-        props.onLikeClick(props.card._id);
+    function handleLikeClick() {
+        props.onCardLike(props.card);
     }
 
-    function likeCard() {
-        api.likeCard(props.card._id)
-            .then((data) => {
-                console.log('card liked', data);
-            })
-            .catch((err) => {
-                console.log('error', err);
-            })
-    }
-
-    function unlikeCard() {
-        api.unlikeCard(props.card._id)
-            .then((data) => {
-                console.log('card unliked', data);
-            })
-            .catch((err) => {
-                console.log('error', err);
-            })
-    }
-
-    function likeToggle() {
-        if (isLiked) {
-            unlikeCard();
-            console.log('this card is UNLIKED', isLiked);
-        } else {
-            likeCard();
-            console.log('this card is LIKED', isLiked);
-        }
+    function handleDeleteClick() {
+        props.onCardDelete(props.card);
+        console.log('dddd', props.card);
     }
 
     function getImage() {
@@ -77,11 +46,11 @@ function Card(props) {
 
         <article className='element'>
             <div className='element__image' style={imageStyle} onMouseDown={getImage} onClick={props.renderImage}></div>
-            <button className={cardDeleteButtonClassName} aria-label='delete' onClick={getDeleteCardId}></button>
+            <button className={cardDeleteButtonClassName} aria-label='delete' onClick={handleDeleteClick}></button>
             <div className='element__bar'>
                 <h2 className='element__title'>{props.card.name}</h2>
                 <div className='element__likes-container'>
-                    <button className={`element__like-button ${isLiked ? 'element__like-button_active' : ''}`} type='button' aria-label='like' onMouseDown={getLikeId} onClick={likeToggle}></button>
+                <button className={cardLikeButtonClassName} type='button' aria-label='like' onClick={handleLikeClick}></button>
                     <span className='element__likes-count'>{props.card.likes.length}</span>
                 </div>
             </div>

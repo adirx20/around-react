@@ -12,17 +12,31 @@ function Main(props) {
 
     // USER DATA STATE VARIABLES
     const [userId, setUserId] = React.useState('');
-    // const [userName, setUserName] = React.useState('');
-    // const [userDescription, setUserDescription] = React.useState('');
-    // const [userAvatar, setUserAvatar] = React.useState('');
 
     // CARDS STATE VARIABLES
     const [cards, setCards] = React.useState([]);
     const [selectedCard, setSelectedCard] = React.useState(null);
 
     // FUNCTIONS
+    // HANDLE CARD LIKE
     function handleCardLike(card) {
-        const isLiked = card.likes.some(like => like._id === currentUser._id); // NEED TO CONTINUE HERE! 
+        const isLiked = card.likes.some(like => like._id === currentUser._id); 
+
+        api.changeLikeCardStatus(card._id, isLiked)
+        .then((newCard) => {
+            setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
+        });
+    }
+
+    // HANDLE CARD DELETE
+    function handleCardDelete(card) {
+        const isOwn = card.owner._id === currentUser._id;
+
+        isOwn && api.deleteCard(card._id)
+        .then((res) => {
+            console.log('asdasdasdasdasdasd', res._id);
+            setCards((state) => state.filter((currentCard) => currentCard._id === card._id)); // NEED TO CONTINUE HERE! 
+        });
     }
 
     function handleImage() {
@@ -34,9 +48,9 @@ function Main(props) {
         props.deleteCardButton();
     }
 
-    function handleLikeButtonClick(id) {
-        setSelectedCard(id);
-    }
+    // function handleLikeButtonClick(id) {
+    //     setSelectedCard(id);
+    // }
 
     // MOUNTING
     React.useEffect(() => {
@@ -76,10 +90,12 @@ function Main(props) {
                         <Card
                             card={element} key={element._id}
                             onDeleteCardClick={handleDeleteCardClick}
-                            onLikeClick={handleLikeButtonClick}
+                            // onLikeClick={handleLikeButtonClick}
                             userId={userId}
                             onCardClick={props.onImageClick}
                             renderImage={handleImage}
+                            onCardLike={handleCardLike}
+                            onCardDelete={handleCardDelete}
                         />
                     ))
                 }
