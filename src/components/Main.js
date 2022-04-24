@@ -20,12 +20,12 @@ function Main(props) {
     // FUNCTIONS
     // HANDLE CARD LIKE
     function handleCardLike(card) {
-        const isLiked = card.likes.some(like => like._id === currentUser._id); 
+        const isLiked = card.likes.some(like => like._id === currentUser._id);
 
         api.changeLikeCardStatus(card._id, isLiked)
-        .then((newCard) => {
-            setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
-        });
+            .then((newCard) => {
+                setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
+            });
     }
 
     // HANDLE CARD DELETE
@@ -33,10 +33,8 @@ function Main(props) {
         const isOwn = card.owner._id === currentUser._id;
 
         isOwn && api.deleteCard(card._id)
-        .then((res) => {
-            console.log('asdasdasdasdasdasd', res._id);
-            setCards((state) => state.filter((currentCard) => currentCard._id === card._id)); // NEED TO CONTINUE HERE! 
-        });
+            .then(() => setCards((state) => state.filter((currentCard) => currentCard._id === card._id))) // NEED TO CHECH IF IT WORKS AFTER!
+            .catch((err) => console.log(err, card))
     }
 
     function handleImage() {
