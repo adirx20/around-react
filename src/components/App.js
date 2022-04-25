@@ -76,6 +76,16 @@ function App() {
       })
   }
 
+  function handleUpdateUser(userData) {
+    api.editProfile(userData)
+    .then((res) => {
+      console.log('resss', res) // FIX USER UPDATE 
+      setCurrentUser(res);
+      closeAllPopups();
+    })
+    .catch((err) => console.log(err));
+  }
+
   // MOUNTING
   React.useEffect(() => {
     Promise.all([api.getUserInfo()])
@@ -109,6 +119,7 @@ function App() {
         <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
+        onUpdateUser={handleUpdateUser}
         />
 
         {/* <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save'
