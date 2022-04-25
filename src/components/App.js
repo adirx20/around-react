@@ -8,6 +8,7 @@ import Header from './Header';
 import Main from './Main';
 import Card from './Card';
 import Footer from './Footer';
+import EditProfilePopup from './EditProfilePopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
@@ -105,7 +106,12 @@ function App() {
 
         <Footer />
 
-        <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save'
+        <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        />
+
+        {/* <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save'
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
         >
@@ -115,7 +121,7 @@ function App() {
           <input id='proffession-input' className='form__input form__input_type_profession' type='text' name='profession'
             placeholder='About me' defaultValue='' required minLength='2' maxLength='200' />
           <span id='proffession-input-error' className='form__input-error-message'></span>
-        </PopupWithForm>
+        </PopupWithForm> */}
 
         <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save'
           isOpen={isEditAvatarPopupOpen}
