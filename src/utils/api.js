@@ -21,13 +21,13 @@ class Api {
     })
   }
 
-  editProfile(data) {
+  editProfile(userData) {
     return customFetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({
-        name: data.name,
-        about: data.about
+        name: userData.name,
+        about: userData.about
       })
     })
   }

@@ -79,8 +79,9 @@ function App() {
   function handleUpdateUser(userData) {
     api.editProfile(userData)
     .then((res) => {
-      console.log('resss', res) // FIX USER UPDATE 
       setCurrentUser(res);
+      console.log('res', res);
+      console.log('usercurrent', currentUser) // FIX USER UPDATE 
       closeAllPopups();
     })
     .catch((err) => console.log(err));
