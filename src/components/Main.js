@@ -14,55 +14,55 @@ function Main(props) {
     const [userId, setUserId] = React.useState('');
 
     // CARDS STATE VARIABLES
-    const [cards, setCards] = React.useState([]);
-    const [selectedCard, setSelectedCard] = React.useState(null);
+    // const [cards, setCards] = React.useState([]);
+    // const [selectedCard, setSelectedCard] = React.useState(null);
 
     // FUNCTIONS
     // HANDLE CARD LIKE
-    function handleCardLike(card) {
-        const isLiked = card.likes.some(like => like._id === currentUser._id);
+    // function handleCardLike(card) {
+    //     const isLiked = card.likes.some(like => like._id === currentUser._id);
 
-        api.changeLikeCardStatus(card._id, isLiked)
-            .then((newCard) => {
-                setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
-            });
-    }
+    //     api.changeLikeCardStatus(card._id, isLiked)
+    //         .then((newCard) => {
+    //             setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
+    //         });
+    // }
 
     // HANDLE CARD DELETE
-    function handleCardDelete(card) {
-        const isOwn = card.owner._id === currentUser._id;
+    // function handleCardDelete(card) {
+    //     const isOwn = card.owner._id === currentUser._id;
 
-        isOwn && api.deleteCard(card._id)
-            .then(() => setCards((state) => state.filter((currentCard) => currentCard._id === card._id))) // NEED TO CHECH IF IT WORKS AFTER!
-            .catch((err) => console.log(err, card))
-    }
+    //     isOwn && api.deleteCard(card._id)
+    //         .then(() => setCards((state) => state.filter((currentCard) => currentCard._id === card._id))) // NEED TO CHECH IF IT WORKS AFTER!
+    //         .catch((err) => console.log(err))
+    // }
 
     function handleImage() {
         props.onCardClick();
     }
 
-    function handleDeleteCardClick(id) {
-        setSelectedCard(id);
-        props.deleteCardButton();
-    }
+    // function handleDeleteCardClick(id) { // CHECK IF NEEDED
+    //     setSelectedCard(id);
+    //     props.deleteCardButton();
+    // }
 
     // function handleLikeButtonClick(id) {
     //     setSelectedCard(id);
     // }
 
     // MOUNTING
-    React.useEffect(() => {
-        Promise.all([api.getInitialCards()])
-            .then(([cardsData]) => {
-                // USER
-                console.log('ahasdasdasdasda', currentUser);
-                // CARDS
-                setCards(cardsData);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }, [])
+    // React.useEffect(() => {
+    //     Promise.all([api.getInitialCards()])
+    //         .then(([cardsData]) => {
+    //             // USER
+    //             console.log('ahasdasdasdasda', currentUser);
+    //             // CARDS
+    //             setCards(cardsData);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    // }, [])
 
     return (
 
@@ -84,16 +84,16 @@ function Main(props) {
 
             <section className='elements'>
                 {
-                    cards.map((element) => (
+                    props.cards.map((element) => (
                         <Card
                             card={element} key={element._id}
-                            onDeleteCardClick={handleDeleteCardClick}
+                            // onDeleteCardClick={handleDeleteCardClick}
                             // onLikeClick={handleLikeButtonClick}
                             userId={userId}
                             onCardClick={props.onImageClick}
                             renderImage={handleImage}
-                            onCardLike={handleCardLike}
-                            onCardDelete={handleCardDelete}
+                            onCardLike={props.onCardLike}
+                            onCardDelete={props.onCardDelete}
                         />
                     ))
                 }

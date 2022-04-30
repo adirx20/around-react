@@ -9,6 +9,8 @@ import Main from './Main';
 import Card from './Card';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddCardPopup from './AddCardPopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
@@ -26,6 +28,10 @@ function App() {
 
   // SELECTED IMAGE STATE VARIABLE
   const [selectedImage, setSelectedImage] = React.useState({});
+
+  // CARDS STATE VARIABLES
+  const [cards, setCards] = React.useState([]);
+  // const [selectedCard, setSelectedCard] = React.useState(null);
 
 
   // FUNCTIONS
@@ -78,22 +84,56 @@ function App() {
 
   function handleUpdateUser(userData) {
     api.editProfile(userData)
-    .then((res) => {
-      setCurrentUser(res);
-      console.log('res', res);
-      console.log('usercurrent', currentUser) // FIX USER UPDATE 
-      closeAllPopups();
-    })
-    .catch((err) => console.log(err));
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
+
+  // HANDLE CARD LIKE
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(like => like._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
+      });
+  }
+
+  // HANDLE CARD DELETE
+  function handleCardDelete(card) {
+    const isOwn = card.owner._id === currentUser._id;
+
+    isOwn && api.deleteCard(card._id)
+      .then(() => setCards((state) => state.filter((currentCard) => currentCard._id === card._id))) // NEED TO CHECH IF IT WORKS AFTER!
+      .catch((err) => console.log(err))
   }
 
   // MOUNTING
   React.useEffect(() => {
-    Promise.all([api.getUserInfo()])
-      .then(([userData]) => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardsData]) => {
+        // USER
         setCurrentUser(userData);
+        // CARDS
+        setCards(cardsData);
       })
-  })
+      .catch((err) => console.log(err))
+  }, [])
+
+  // React.useEffect(() => {
+  //     Promise.all([api.getInitialCards()])
+  //         .then(([cardsData]) => {
+  //             // USER
+  //             console.log('ahasdasdasdasda', currentUser);
+  //             // CARDS
+  //             setCards(cardsData);
+  //         })
+  //         .catch((err) => {
+  //             console.log(err);
+  //         })
+  // }, [])
 
   // JSX
   return (
@@ -113,14 +153,27 @@ function App() {
           onImageClick={handleImageClick}
           onClose={closeAllPopups}
           isImagePopupOpen={isImagePopupOpen}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
 
         <Footer />
 
         <EditProfilePopup
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        onUpdateUser={handleUpdateUser}
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        />
+
+        <AddCardPopup
+          isOpen={isAddCardPopupOpen}
+          onClose={closeAllPopups}
         />
 
         {/* <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save'
@@ -135,16 +188,16 @@ function App() {
           <span id='proffession-input-error' className='form__input-error-message'></span>
         </PopupWithForm> */}
 
-        <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save'
+        {/* <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save'
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
         >
           <input id='avatar-link-input' className='form__input form__input_type_avatar-link' type='url' name='avatar-link'
             placeholder='Image URL' defaultValue='' required onChange={handleInput} />
           <span id='avatar-link-input-error' className='form__input-error-message'></span>
-        </PopupWithForm>
+        </PopupWithForm> */}
 
-        <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save'
+        {/* <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save'
           isOpen={isAddCardPopupOpen}
           onClose={closeAllPopups}
         >
@@ -154,7 +207,7 @@ function App() {
           <input id='card-link-input' className='form__input form__input_type_card-link' type='url' name='card-link'
             placeholder='Image URL' defaultValue='' required />
           <span id='card-link-input-error' className='form__input-error-message'></span>
-        </PopupWithForm>
+        </PopupWithForm> */}
 
         <PopupWithForm name='delete-card' title='Are you sure?' saveButtonTitle='Yes'
           isOpen={isDeleteCardPopupOpen}

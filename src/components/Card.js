@@ -25,9 +25,9 @@ function Card(props) {
     );
 
     // FUNCTIONS
-    function getDeleteCardId() {
-        props.onDeleteCardClick(props.card._id);
-    }
+    // function getDeleteCardId() {
+    //     props.onDeleteCardClick(props.card._id);
+    // }
 
     function handleLikeClick() {
         props.onCardLike(props.card);
