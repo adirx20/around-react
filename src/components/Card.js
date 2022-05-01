@@ -18,17 +18,13 @@ function Card(props) {
     const isLiked = props.card.likes.some(like => like._id === currentUser._id);
 
     const cardDeleteButtonClassName = (
-        `element__delete-button ${!isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'} button-effect`
+        `element__delete-button ${isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'} button-effect`
     );
     const cardLikeButtonClassName = (
         `element__like-button ${isLiked ? 'element__like-button_active' : ''}`
     );
 
     // FUNCTIONS
-    // function getDeleteCardId() {
-    //     props.onDeleteCardClick(props.card._id);
-    // }
-
     function handleLikeClick() {
         props.onCardLike(props.card);
     }
@@ -50,7 +46,7 @@ function Card(props) {
             <div className='element__bar'>
                 <h2 className='element__title'>{props.card.name}</h2>
                 <div className='element__likes-container'>
-                <button className={cardLikeButtonClassName} type='button' aria-label='like' onClick={handleLikeClick}></button>
+                    <button className={cardLikeButtonClassName} type='button' aria-label='like' onClick={handleLikeClick}></button>
                     <span className='element__likes-count'>{props.card.likes.length}</span>
                 </div>
             </div>

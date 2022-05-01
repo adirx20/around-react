@@ -6,17 +6,40 @@ import PopupWithForm from '../components/PopupWithForm';
 
 // =====>
 function AddCardPopup(props) {
+    // INPUTS
+    const [cardTitle, setCardTitle] = React.useState('');
+    const [cardLink, setCardLink] = React.useState('');
+
+    // HANDLERS
+    function handleCardTitleChange(evt) {
+        setCardTitle(evt.target.value);
+    }
+
+    function handleCardLinkChange(evt) {
+        setCardLink(evt.target.value);
+    }
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+
+        props.onAddCard({
+            name: cardTitle,
+            link: cardLink,
+        });
+    }
+
     // JSX
     return (
         <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save'
             isOpen={props.isOpen}
             onClose={props.onClose}
+            onSubmit={handleSubmit}
         >
             <input id='card-input' className='form__input form__input_type_card-title' type='text' name='card-title'
-                placeholder='Title' defaultValue='' required minLength='1' maxLength='30' />
+                placeholder='Title' defaultValue='' required minLength='1' maxLength='30' onChange={handleCardTitleChange} />
             <span id='card-input-error' className='form__input-error-message'></span>
             <input id='card-link-input' className='form__input form__input_type_card-link' type='url' name='card-link'
-                placeholder='Image URL' defaultValue='' required />
+                placeholder='Image URL' defaultValue='' required onChange={handleCardLinkChange} />
             <span id='card-link-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
     );

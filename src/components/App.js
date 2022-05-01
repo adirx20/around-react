@@ -31,8 +31,6 @@ function App() {
 
   // CARDS STATE VARIABLES
   const [cards, setCards] = React.useState([]);
-  // const [selectedCard, setSelectedCard] = React.useState(null);
-
 
   // FUNCTIONS
   function handleEditProfileClick() {
@@ -67,11 +65,6 @@ function App() {
     setIsDeleteCardPopupOpen(false);
   }
 
-
-  function handleInput(evt) {
-    return evt.target.value;
-  }
-
   function deleteCard() {
     api.deleteCard()
       .then((data) => {
@@ -82,6 +75,7 @@ function App() {
       })
   }
 
+  // HANDLE UPDATE USER
   function handleUpdateUser(userData) {
     api.editProfile(userData)
       .then((res) => {
@@ -89,6 +83,16 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => console.log(err));
+  }
+
+  // HANDLE AVATAR UPDATE
+  function handleAvatarUpdate(avatar) {
+    api.editAvatar(avatar)
+      .then((res) => {
+        console.log('Avatar updated', res.avatar);
+        setCurrentUser(res);
+      })
+      .catch((err) => console.log(err))
   }
 
   // HANDLE CARD LIKE
@@ -106,8 +110,18 @@ function App() {
     const isOwn = card.owner._id === currentUser._id;
 
     isOwn && api.deleteCard(card._id)
-      .then(() => setCards((state) => state.filter((currentCard) => currentCard._id === card._id))) // NEED TO CHECH IF IT WORKS AFTER!
+      .then(() => setCards((state) => state.filter((currentCard) => currentCard._id !== card._id)))
       .catch((err) => console.log(err))
+  }
+
+  // HANDLE ADD CARD SUBMIT
+  function handleAddCardSubmit(cardData) {
+    api.createCard(cardData)
+      .then((newCard) => {
+        console.log('new card', newCard);
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
   }
 
   // MOUNTING
@@ -121,19 +135,6 @@ function App() {
       })
       .catch((err) => console.log(err))
   }, [])
-
-  // React.useEffect(() => {
-  //     Promise.all([api.getInitialCards()])
-  //         .then(([cardsData]) => {
-  //             // USER
-  //             console.log('ahasdasdasdasda', currentUser);
-  //             // CARDS
-  //             setCards(cardsData);
-  //         })
-  //         .catch((err) => {
-  //             console.log(err);
-  //         })
-  // }, [])
 
   // JSX
   return (
@@ -169,45 +170,14 @@ function App() {
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
+          onUpdateAvatar={handleAvatarUpdate}
         />
 
         <AddCardPopup
           isOpen={isAddCardPopupOpen}
           onClose={closeAllPopups}
+          onAddCard={handleAddCardSubmit}
         />
-
-        {/* <PopupWithForm name='edit-profile' title='Edit profile' saveButtonTitle='Save'
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-        >
-          <input id='name-input' className='form__input form__input_type_name' type='text' name='name' placeholder='Name'
-            defaultValue='' required minLength='2' maxLength='40' />
-          <span id='name-input-error' className='form__input-error-message'></span>
-          <input id='proffession-input' className='form__input form__input_type_profession' type='text' name='profession'
-            placeholder='About me' defaultValue='' required minLength='2' maxLength='200' />
-          <span id='proffession-input-error' className='form__input-error-message'></span>
-        </PopupWithForm> */}
-
-        {/* <PopupWithForm name='edit-avatar' title='Change profile picture' saveButtonTitle='Save'
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-        >
-          <input id='avatar-link-input' className='form__input form__input_type_avatar-link' type='url' name='avatar-link'
-            placeholder='Image URL' defaultValue='' required onChange={handleInput} />
-          <span id='avatar-link-input-error' className='form__input-error-message'></span>
-        </PopupWithForm> */}
-
-        {/* <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save'
-          isOpen={isAddCardPopupOpen}
-          onClose={closeAllPopups}
-        >
-          <input id='card-input' className='form__input form__input_type_card-title' type='text' name='card-title'
-            placeholder='Title' defaultValue='' required minLength='1' maxLength='30' />
-          <span id='card-input-error' className='form__input-error-message'></span>
-          <input id='card-link-input' className='form__input form__input_type_card-link' type='url' name='card-link'
-            placeholder='Image URL' defaultValue='' required />
-          <span id='card-link-input-error' className='form__input-error-message'></span>
-        </PopupWithForm> */}
 
         <PopupWithForm name='delete-card' title='Are you sure?' saveButtonTitle='Yes'
           isOpen={isDeleteCardPopupOpen}

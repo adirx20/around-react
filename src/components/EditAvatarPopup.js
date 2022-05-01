@@ -11,20 +11,13 @@ function EditAvatarPopup(props) {
 
     const avatarRef = React.useRef();
 
-    function onAvatarUpdate(avatar) {
-        console.log('ref', avatarRef.current.value)
-
-        api.editAvatar(avatar)
-        .then((res) => {
-            console.log('Avatar updated', res.avatar);
-        })
-        .catch((err) => console.log(err))
-    }
-
+    // HANDLERS
     function handleSubmit(evt) {
         evt.preventDefault();
 
-        onAvatarUpdate(avatarRef.current.value);
+        props.onUpdateAvatar(avatarRef.current.value);
+
+        props.onClose();
     }
 
     // JSX

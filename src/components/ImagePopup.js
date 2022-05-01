@@ -1,5 +1,6 @@
 // =====>
 function ImagePopup(props) {
+    // JSX
     return (
 
         <div className={`popup popup_type_image ${props.isOpen ? 'popup_opened' : ''}`}>

@@ -3,12 +3,7 @@ import ReactDOM from 'react-dom';
 
 // =====>
 function PopupWithForm(props) {
-
-    function handleSubmit(evt) {
-        evt.preventDefault();
-        props.handleSubmit();
-    }
-
+    // JSX
     return (
 
         <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>
