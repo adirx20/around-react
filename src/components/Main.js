@@ -9,9 +9,6 @@ function Main(props) {
     // CURRENT USER CONTEXT
     const currentUser = React.useContext(CurrentUserContext);
 
-    // USER DATA STATE VARIABLES
-    const [userId, setUserId] = React.useState('');
-
     // FUNCTIONS
     function handleImage() {
         props.onCardClick();
@@ -41,7 +38,6 @@ function Main(props) {
                     props.cards.map((element) => (
                         <Card
                             card={element} key={element._id}
-                            userId={userId}
                             onCardClick={props.onImageClick}
                             renderImage={handleImage}
                             onCardLike={props.onCardLike}

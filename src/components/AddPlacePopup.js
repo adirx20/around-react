@@ -27,6 +27,12 @@ function AddCardPopup(props) {
         });
     }
 
+    // MOUNTING
+    React.useEffect(() => {
+        setCardTitle('');
+        setCardLink('');
+    }, [props.isOpen]);
+
     // JSX
     return (
         <PopupWithForm name='add-card' title='New Place' saveButtonTitle='Save'
@@ -35,10 +41,10 @@ function AddCardPopup(props) {
             onSubmit={handleSubmit}
         >
             <input id='card-input' className='form__input form__input_type_card-title' type='text' name='card-title'
-                placeholder='Title' defaultValue='' required minLength='1' maxLength='30' onChange={handleCardTitleChange} />
+                placeholder='Title' value={cardTitle} required minLength='1' maxLength='30' onChange={handleCardTitleChange} />
             <span id='card-input-error' className='form__input-error-message'></span>
             <input id='card-link-input' className='form__input form__input_type_card-link' type='url' name='card-link'
-                placeholder='Image URL' defaultValue='' required onChange={handleCardLinkChange} />
+                placeholder='Image URL' value={cardLink} required onChange={handleCardLinkChange} />
             <span id='card-link-input-error' className='form__input-error-message'></span>
         </PopupWithForm>
     );

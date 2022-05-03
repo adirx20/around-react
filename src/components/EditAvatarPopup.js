@@ -15,8 +15,6 @@ function EditAvatarPopup(props) {
         evt.preventDefault();
 
         props.onUpdateAvatar(avatarRef.current.value);
-
-        props.onClose();
     }
 
     // JSX
