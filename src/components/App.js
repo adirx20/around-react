@@ -88,8 +88,8 @@ function App() {
   function handleAvatarUpdate(avatar) {
     api.editAvatar(avatar)
       .then((res) => {
-        console.log('Avatar updated', res.avatar);
         setCurrentUser(res);
+        closeAllPopups();
       })
       .catch((err) => console.log(err))
   }
@@ -101,7 +101,8 @@ function App() {
     api.changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
         setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
-      });
+      })
+      .catch((err) => console.log(err));
   }
 
   // HANDLE CARD DELETE
@@ -125,6 +126,7 @@ function App() {
 
   // MOUNTING
   React.useEffect(() => {
+    // GET USER AND CARDS DATA
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsData]) => {
         // USER
@@ -132,7 +134,18 @@ function App() {
         // CARDS
         setCards(cardsData);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
+
+    // ESCAPE BUTTON EVENT LISTENERS
+    const closeByEscape = (evt) => {
+      if (evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+    // ADD
+    document.addEventListener('keydown', closeByEscape);
+    // REMOVE
+    return () => document.removeEventListener('keydown', closeByEscape);
   }, [])
 
   // JSX
